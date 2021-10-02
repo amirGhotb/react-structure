@@ -2,11 +2,12 @@ import Form from '../../Components/Form'
 import {useEffect, useState} from "react";
 import api from '../../../ApiServices'
 import {postProcessUserApi, preProcessUserApi} from '../../../ApiServices/Services/UserService'
+import Middleware from '../../../Middleware'
 
 export default function Home() {
     const [name, setName] = useState('')
     const [post, setPost] = useState(false)
-
+    console.log('aaa');
     const [data, status] = api(preProcessUserApi('test', {
         name: 'aaaa'
     }), postProcessUserApi, [post], post)
@@ -16,9 +17,9 @@ export default function Home() {
         setPost(false)
     }, [status])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(post);
-    },[post])
+    }, [post])
 
     return <div>
         <Form formClass={'d-flex flex-column'} inputs={[

@@ -1,10 +1,8 @@
-import {baseApiUrl} from '../../app.json'
-
 export default [
     {
-        name: 'test',
-        url: '',
-        method: 'get',
+        name: 'auth-login',
+        url: 'auth/login',
+        method: 'post',
         auth: false
     },
 ];

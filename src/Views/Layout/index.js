@@ -6,12 +6,29 @@ import Footer from "./Footer";
 import '../../Assets/Sass/app.scss'
 import Spinner from "../Components/Spinner";
 
-export default function ({content, dir}) {
-    return <div dir={dir}>
-        <Spinner/>
-        <Header/>
-        <Sidebar/>
-        {content}
-        <Footer/>
-    </div>
+export default function ({type = 'panel', children}) {
+    console.log(children, type, 'hello');
+    let jsx = null
+    switch (type) {
+        case 'auth':
+            jsx = <div>
+                <Spinner/>
+                {children}
+            </div>
+            break
+        case 'panel':
+            jsx = <div>
+                <Spinner/>
+                <Header/>
+                <Sidebar/>
+                {children}
+                <Footer/>
+            </div>
+            break
+        default:
+            jsx = <div/>
+            break
+    }
+    console.log(jsx);
+    return jsx
 }

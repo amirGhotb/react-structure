@@ -3,7 +3,7 @@ import React from "react";
 export default function Input({input, index, invalid = false}) {
     switch (input.type) {
         case 'text':
-            return <label key={'input' + index} className={`${input.labelClass} has-validation`} htmlFor="">
+            return <label key={'input' + index} className={`${input.labelClass?? ''} has-validation w-100`} htmlFor="">
                 {input.label}
                 <input type="text" value={input.value} onChange={(e) => {
                     input.setValue(e.target.value)
@@ -13,7 +13,7 @@ export default function Input({input, index, invalid = false}) {
                 }
             </label>
         case 'numberFloat':
-            return <label key={'input' + index} className={`${input.labelClass} has-validation`} htmlFor="">
+            return <label key={'input' + index} className={`${input.labelClass?? ''} has-validation w-100`} htmlFor="">
                 {input.label}
                 <input type="text" value={input.value} minLength={input.min} maxLength={input.max}
                        className={`form-control ${input.class} ${invalid ? 'is-invalid' : ''}`}
@@ -29,7 +29,7 @@ export default function Input({input, index, invalid = false}) {
                 }
             </label>
         case 'numberInteger':
-            return <label key={'input' + index} className={`${input.labelClass} has-validation`} htmlFor="">
+            return <label key={'input' + index} className={`${input.labelClass?? ''} has-validation w-100`} htmlFor="">
                 {input.label}
                 <input type="text" value={input.value} minLength={input.min} maxLength={input.max}
                        className={`form-control ${input.class} ${invalid ? 'is-invalid' : ''}`}
@@ -49,14 +49,14 @@ export default function Input({input, index, invalid = false}) {
                        onChange={(e) => {
                            input.setValue(e.target.checked)
                        }}/>
-                <label className={`form-check-label ${input.labelClass}`}
+                <label className={`form-check-label ${input.labelClass?? ''}`}
                        htmlFor="exampleCheck1">{input.label}</label>
                 {
                     invalid !== false && <p className={'invalid-feedback'}>{input.validation.text}</p>
                 }
             </div>
         case 'textArea':
-            return <label key={'input' + index} className={`${input.labelClass} has-validation`} htmlFor="">
+            return <label key={'input' + index} className={`${input.labelClass?? ''} has-validation`} htmlFor="">
                 {input.label}
                 <textarea name="" id="" cols={input.cols ?? 30}
                           className={`form-control ${invalid ? 'is-invalid' : ''}`} rows={input.cols ?? 5}

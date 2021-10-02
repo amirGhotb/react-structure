@@ -16,7 +16,7 @@ function App() {
 
     return (
         <AppContext.Provider value={{app, appDispatch}}>
-            <Layout dir={'rtl'} content={Routes()}/>
+            {Routes()}
         </AppContext.Provider>
     );
 }

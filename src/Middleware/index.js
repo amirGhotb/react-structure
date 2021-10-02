@@ -1,9 +1,8 @@
-import {AuthMiddleware} from "./AuthMiddleware";
+import AuthMiddleware from "./AuthMiddleware";
 
-export default function (name) {
+export default function ({name = null, children}) {
     let middlewares = {
-        auth: AuthMiddleware
+        auth: AuthMiddleware(children)
     }
-
-    return middlewares[name];
+    return Object.keys(middlewares).includes(name) ? middlewares[name] : children;
 }
