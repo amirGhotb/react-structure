@@ -3,13 +3,13 @@ import {
     Route,
     Switch,
 } from "react-router-dom";
-import RoutesList from "./RoutesList";
+import {routes} from "./Routes";
 import NotFound from "../Views/Pages/NotFound";
 import Layout from "../Views/Layout/index"
 import Middleware from "../Middleware"
 
 export default function () {
-    let routesList = RoutesList();
+    let routesList = routes();
     return <Router>
         <Switch>
             {

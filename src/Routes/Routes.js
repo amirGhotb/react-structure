@@ -1,8 +1,7 @@
 import Home from "../Views/Pages/Public/Home";
 import Login from "../Views/Pages/Auth/Login";
-import NotFound from "../Views/Pages/NotFound";
 
-export default function RoutesList() {
+function routes() {
     return {
         auth: {
             prefix: 'auth',
@@ -10,7 +9,7 @@ export default function RoutesList() {
             childes: {
                 login: {
                     exact: false,
-                    name: 'login',
+                    name: 'auth-login',
                     path: 'login',
                     page: Login(),
                 }
@@ -43,4 +42,21 @@ export default function RoutesList() {
             }
         }
     }
+}
+
+function getRoutePath(name) {
+    let routePath = ''
+    Object.values(routes()).forEach(item => {
+        let path = `/${item.prefix}/`;
+        Object.values(item.childes).forEach(child => {
+            if (name === child.name) {
+                routePath = path + child.path
+            }
+        })
+    })
+    return routePath
+}
+
+export {
+    routes, getRoutePath
 }

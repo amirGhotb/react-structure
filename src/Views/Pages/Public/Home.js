@@ -3,24 +3,18 @@ import {useEffect, useState} from "react";
 import api from '../../../ApiServices'
 import {postProcessUserApi, preProcessUserApi} from '../../../ApiServices/Services/UserService'
 import Middleware from '../../../Middleware'
+import {getRoutePath} from "../../../Routes/Routes";
 
 export default function Home() {
     const [name, setName] = useState('')
     const [post, setPost] = useState(false)
-    console.log('aaa');
     const [data, status] = api(preProcessUserApi('test', {
         name: 'aaaa'
     }), postProcessUserApi, [post], post)
 
-    useEffect(() => {
-        console.log(status);
-        setPost(false)
-    }, [status])
-
-    useEffect(() => {
-        console.log(post);
-    }, [post])
-
+    // useEffect(() => {
+    //     setPost(false)
+    // }, [status])
     return <div>
         <Form formClass={'d-flex flex-column'} inputs={[
             {

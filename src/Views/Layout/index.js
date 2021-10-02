@@ -7,7 +7,6 @@ import '../../Assets/Sass/app.scss'
 import Spinner from "../Components/Spinner";
 
 export default function ({type = 'panel', children}) {
-    console.log(children, type, 'hello');
     let jsx = null
     switch (type) {
         case 'auth':
@@ -29,6 +28,5 @@ export default function ({type = 'panel', children}) {
             jsx = <div/>
             break
     }
-    console.log(jsx);
     return jsx
 }

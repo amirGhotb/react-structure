@@ -22,7 +22,6 @@ export default function ({
                 }
             }
         )
-        console.log(temp);
         setInvalid({...invalid, list: temp})
         if (temp.filter(item => !item).length === temp.length) {
             submit()
