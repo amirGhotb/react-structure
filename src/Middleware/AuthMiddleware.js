@@ -11,5 +11,5 @@ export default function AuthMiddleware(children) {
     } else {
         history.push(getRoutePath('auth-login'))
     }
-    return <div></div>
+    return <div/>
 }
