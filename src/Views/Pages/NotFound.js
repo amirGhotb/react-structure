@@ -1,13 +1,9 @@
 // @flow
 import * as React from "react";
+import notFound from '../../Assets/Images/404.png'
 export default function NotFound(): React.Node{
-
-    function foo(x: ?string): string {
-        if (x) {
-            return x;
-        }
-        return "default string";
-    }
-
-    return <div>{foo('25')}</div>
+    return <div className={'not-found-box'}>
+        <img src={notFound} alt="" className={'not-found-img'}/>
+        <p>صفحه مورد نظر یافت نشد</p>
+    </div>
 }
