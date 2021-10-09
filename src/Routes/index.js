@@ -23,7 +23,9 @@ export default function () {
                                                       exact={route.exact}
                                                       path={`/${item.prefix}/${route.path}`}
                                         >
-                                            <Middleware name={item.middleware} children={route.page}/>
+                                            <Middleware name={item.middleware}>
+                                                {route.page}
+                                            </Middleware>
                                         </Route>
                                     })
                                 }

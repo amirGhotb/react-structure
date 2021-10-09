@@ -18,7 +18,6 @@ function routes() {
         public: {
             prefix: 'public',
             layoutName: 'panel',
-            middleware: 'auth',
             childes: {
                 home: {
                     exact: false,
@@ -37,7 +36,7 @@ function routes() {
                     exact: false,
                     name: 'home',
                     path: 'home',
-                    page: Home
+                    page: Home()
                 }
             }
         }
