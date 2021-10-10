@@ -36,7 +36,7 @@ export default function ({
         <div className={buttonsBoxClass}>
             {
                 buttons.map((button, index) => {
-                    return <button key={'btn-' + index} className={button.class}
+                    return <button key={'btn-' + index} className={'btn btn-'+ button.class}
                                    disabled={button.disabled ?? false} type={button.type}
                                    onClick={() => button.onClick ? button.onClick() : null}>{button.text}</button>
                 })
