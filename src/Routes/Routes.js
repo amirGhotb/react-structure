@@ -11,7 +11,7 @@ function routes() {
                     exact: false,
                     name: 'auth-login',
                     path: 'login',
-                    page: Login(),
+                    page: Login,
                 }
             },
         },
@@ -23,7 +23,7 @@ function routes() {
                     exact: false,
                     name: 'home',
                     path: '',
-                    page: Home(),
+                    page: Home,
                 }
             },
         },
@@ -36,7 +36,7 @@ function routes() {
                     exact: false,
                     name: 'home',
                     path: 'home',
-                    page: Home()
+                    page: Home
                 }
             }
         }

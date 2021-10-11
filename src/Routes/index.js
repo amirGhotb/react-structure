@@ -24,7 +24,7 @@ export default function () {
                                                       path={`/${item.prefix}/${route.path}`}
                                         >
                                             <Middleware name={item.middleware}>
-                                                {route.page}
+                                                {route.page()}
                                             </Middleware>
                                         </Route>
                                     })
