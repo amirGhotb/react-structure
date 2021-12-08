@@ -17,6 +17,6 @@ export default function Spinner() {
       right: 46%;
     `;
     return <div className={`spinner-box ${active ? '' : 'd-none'}`}>
-        <HashLoader loading={true} css={override} size={150}/>
+        <HashLoader loading={true} css={override} size={150} color={"#e67e22"}/>
     </div>
 }
