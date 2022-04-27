@@ -10,6 +10,6 @@ export default function PreProcess(apiAddress, urlName, params) {
         method: apiData.method,
         url: apiData.url,
         data: params,
-        headers: HeaderApi(apiData.auth, apiData.media),
+        headers: HeaderApi(apiData.auth,apiData.authRegister, apiData.media),
     };
 }

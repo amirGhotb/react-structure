@@ -1,11 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios";
-import {useHistory} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import cogoToast from 'cogo-toast';
 import app from '../app.json'
 import AppContext from "../Storage/Contexts/AppContext";
-import Store from "../Storage/Store";
-
+import {getRoutePath} from "../Routes/Routes";
 export const apiStates = {
     LOADING: 'LOADING',
     SUCCESS: 'SUCCESS',
@@ -15,7 +14,7 @@ export const apiStates = {
 export default function (fetchData, postProcess, watch = [], condition = true) {
     let apiBaseUrl = `${app.baseApiUrl}/`;
     const [data, setData] = useState([{}, '', null]);
-    const history = useHistory()
+    const navigate = useNavigate()
     const appContext = useContext(AppContext)
     const setSpinner = (active = false) => {
         appContext.appDispatch({
@@ -23,6 +22,7 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
             spinner: active
         })
     }
+
     useEffect(() => {
         if (condition) {
             setSpinner(true)
@@ -33,10 +33,11 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                 headers: fetchData.headers,
                 data: fetchData.data
             }).then((response) => {
-                if (response.status !== 200) {
-                    setData([{}, apiStates.ERROR, response.status]);
-                    return null;
-                }
+                setData([
+                    postProcess
+                        ? postProcess(fetchData.urlName, response)
+                        : response,
+                    apiStates.SUCCESS]);
                 return response.data;
             })
                 .then((response) => {
@@ -49,14 +50,27 @@ export default function (fetchData, postProcess, watch = [], condition = true) {
                     }
                 })
                 .catch((e) => {
-                    console.log(e);
-                    if (e.response?.status === 401) {
-                        Store.remove('USER_INFO')
-                        history.push('/login')
+                    if ([401,419].includes(e.response?.status)) {
+                        appContext.appDispatch({
+                            type:'USER',
+                            data:{}
+                        })
+                        navigate(getRoutePath('login'))
+                        // window.location.reload();
+                    }else if(e.response?.status === 500){
+                        cogoToast.error('خطا در عملیات')
+                    } else if(e.response?.status === 408){
+                        appContext.appDispatch({
+                            type:'USER',
+                            data:{}
+                        })
+                        navigate(getRoutePath('home'))
+                        cogoToast.error('حساب کاربری شما غیرفعال است لطفا با پشتیبانی تماس بگیرید')
                     }
                     console.log(e);
-                    cogoToast.error('خطا در عملیات')
-                    setData([{}, apiStates.ERROR, e.response?.status ?? 500]);
+                    setData([postProcess
+                        ? postProcess(fetchData.urlName, e?.response ?? {})
+                        : e?.response??{}, apiStates.ERROR, e.response?.status ?? 500]);
                 }).finally(() => {
                 setSpinner(false)
             });

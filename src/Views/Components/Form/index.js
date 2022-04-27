@@ -11,7 +11,6 @@ export default function ({
     return <form  className={formClass} onSubmit={(e) => {
         e.preventDefault()
         let temp = invalid.list
-        console.log(inputs,'inputs');
         inputs.forEach((item, index) => {
                 if (item.validation?.required && !item.value && (item.condition??true)) {
                     temp[index] = item.validation.requiredFeedBack ?? ''
@@ -22,7 +21,6 @@ export default function ({
                 }
             }
         )
-        console.log(temp);
         setInvalid({...invalid, list: temp})
         if (temp.filter(item => !item).length === temp.length) {
             submit(e)

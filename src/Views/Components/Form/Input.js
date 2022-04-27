@@ -1,4 +1,6 @@
 import React from "react";
+import {persianNumberToEnglish} from "../../../Helper";
+import SearchableSelect from "./SearchableSelect";
 
 export default function Input({input, index, invalid = false}) {
     function getInput(){
@@ -9,20 +11,22 @@ export default function Input({input, index, invalid = false}) {
                        required={input.required}
                        disabled={input.disabled??false}
                        onChange={(e) => {
-                           if (!isNaN(parseFloat(e.target.value)) || e.target.value === '') {
-                               input.setValue(e.target.value)
+                           let temp = persianNumberToEnglish(e.target.value)
+                           if (!isNaN(parseFloat(temp)) || temp === '') {
+                               input.setValue(temp)
                            }
                        }}/>
             case 'numberInteger':
                 return <input type="text" value={input.value} autoComplete={input.autoComplete} minLength={input.min} maxLength={input.max}
-                           className={`form-control ${input.class} ${invalid ? 'is-invalid' : ''}`}
-                           required={input.required}
-                           disabled={input.disabled??false}
-                           onChange={(e) => {
-                               if (!isNaN(parseInt(e.target.value)) || e.target.value === '') {
-                                   input.setValue(e.target.value)
-                               }
-                           }}/>
+                              className={`form-control ${input.class} ${invalid ? 'is-invalid' : ''}`}
+                              required={input.required}
+                              disabled={input.disabled??false}
+                              onChange={(e) => {
+                                  let temp = persianNumberToEnglish(e.target.value)
+                                  if (!isNaN(temp) || temp === '') {
+                                      input.setValue(temp.toString().replace('.',''))
+                                  }
+                              }}/>
             case 'checkBox':
                 return <div className="form-check has-validation">
                     <input id={'exampleCheck'+index} type="checkbox" disabled={input.disabled??false} className={`form-check-input ${invalid ? 'is-invalid' : ''}`} value={input.value}
@@ -43,7 +47,7 @@ export default function Input({input, index, invalid = false}) {
 
                 </textarea>
             case 'select':
-                return <select disabled={input.disabled??false}  className={`form-control ${invalid ? 'is-invalid' : ''}`} value={input.value}
+                return <select disabled={input.disabled??false}  className={`form-control ${input.class} ${invalid ? 'is-invalid' : ''}`} value={input.value}
                             onChange={(e) => input.setValue(e.target.value)}>
                         {
                             input.options.map((option,index)=>{
@@ -51,6 +55,8 @@ export default function Input({input, index, invalid = false}) {
                             })
                         }
                     </select>
+            case 'searchableSelect':
+                return <SearchableSelect options={input.options} classStyle={`${invalid ? 'is-invalid' : ''}`} setValue={input.setValue} value={input.value}/>
             case 'custom':
                 return input.view(input.value, input.setValue, invalid !== false)
             default:
@@ -61,6 +67,9 @@ export default function Input({input, index, invalid = false}) {
     }
     if (!['checkBox','custom'].includes(input.type)) {
         return <label key={'input' + index} className={`${input.labelClass ?? ''} has-validation p-1`}>
+            {
+                input.redStar && <span className={'text-danger'}>*</span>
+            }
             {input.label}
             {
                 getInput()

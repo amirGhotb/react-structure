@@ -11,8 +11,14 @@ export default function ({type = 'panel', children}) {
     switch (type) {
         case 'auth':
             jsx = <div>
-                <Spinner/>
-                {children}
+                <div className="content-box main-background">
+                    <Header/>
+                    <div className={'d-flex flex-column flex-lg-row mt-3 container'}>
+                        <div className={'container p-0'}>
+                            {children}
+                        </div>
+                    </div>
+                </div>
             </div>
             break
         case 'panel':
@@ -25,7 +31,9 @@ export default function ({type = 'panel', children}) {
             </div>
             break
         default:
-            jsx = <div/>
+            jsx = <div>
+                {children}
+            </div>
             break
     }
     return jsx

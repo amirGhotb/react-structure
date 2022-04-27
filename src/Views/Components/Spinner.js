@@ -6,7 +6,6 @@ import {css} from "@emotion/react";
 export default function Spinner() {
     const context = useContext(AppContext)
     const [active, setActive] = useState(context.app.spinner ?? false)
-
     useEffect(() => {
         setActive(context.app.spinner)
     }, [context.app.spinner])

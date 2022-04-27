@@ -1,58 +1,62 @@
 import Home from "../Views/Pages/Public/Home";
 import Login from "../Views/Pages/Auth/Login";
+import NotFound from "../Views/Pages/NotFound";
 
 function routes() {
     return {
-        auth: {
-            prefix: 'auth',
+        authLogin: {
+            prefix: '/main/auth',
             layoutName: 'auth',
+            middleware:'logout',
             childes: {
                 login: {
-                    exact: false,
+                    exact: true,
                     name: 'auth-login',
                     path: 'login',
-                    page: Login,
-                }
+                    page: <Login/>,
+                },
             },
         },
         public: {
-            prefix: 'public',
-            layoutName: 'panel',
+            prefix: '',
+            layoutName: 'main',
+            middleware: '',
             childes: {
                 home: {
-                    exact: false,
+                    exact: true,
                     name: 'home',
                     path: '',
-                    page: Home,
-                }
+                    page: <Home/>,
+                },
             },
         },
-        panel: {
-            prefix: 'panel',
-            layoutName: 'panel',
-            middleware: 'auth',
+        notFound:{
+            prefix: '/main',
+            layoutName: '',
+            middleware: '',
             childes: {
-                home: {
+                notFound: {
                     exact: false,
-                    name: 'home',
-                    path: 'home',
-                    page: Home
-                }
+                    name: 'notFound',
+                    path: '*',
+                    page: <NotFound/>
+                },
             }
-        }
+        },
     }
 }
 
 function getRoutePath(name) {
     let routePath = ''
     Object.values(routes()).forEach(item => {
-        let path = `/${item.prefix}/`;
+        let path = `${item.prefix + (item.prefix !== ''? '/' : '')}`;
         Object.values(item.childes).forEach(child => {
             if (name === child.name) {
                 routePath = path + child.path
             }
         })
     })
+
     return routePath
 }
 

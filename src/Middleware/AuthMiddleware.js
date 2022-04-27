@@ -1,15 +1,15 @@
-import React, {useContext, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
+import React, {useContext} from 'react';
+import {useNavigate} from "react-router-dom";
 import AppContext from "../Storage/Contexts/AppContext";
 import {getRoutePath} from "../Routes/Routes";
 
 export default function AuthMiddleware(children) {
-    const appContext = useContext(AppContext)
-    const history = useHistory()
-    if (appContext.app?.apiToken) {
+    const context = useContext(AppContext)
+    const navigate = useNavigate();
+    if (context.app?.user?.token) {
         return children;
     } else {
-        history.push(getRoutePath('auth-login'))
+        navigate(getRoutePath('home'))
     }
     return <div/>
 }

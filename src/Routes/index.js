@@ -1,40 +1,41 @@
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
+    Routes,
     Route,
-    Switch,
 } from "react-router-dom";
-import {routes} from "./Routes";
-import NotFound from "../Views/Pages/NotFound";
+import {getRoutePath, routes} from "./Routes";
 import Layout from "../Views/Layout/index"
 import Middleware from "../Middleware"
 
 export default function () {
     let routesList = routes();
-    return <Router>
-        <Switch>
+
+    function makePath(parent, route) {
+        let temp = parent.prefix ? `${parent.prefix}/${route.path}` : `${route.path}`;
+        (route.params ?? []).forEach(item => {
+            temp += '/:' + item
+        })
+        return temp
+    }
+
+    return <BrowserRouter>
+        <Routes>
             {
                 Object.values(routesList).map((item, indexParent) => {
-                    return <Route key={`route-${indexParent}`} path={`/${item.prefix}/:path?`} exact>
-                        <Layout type={item.layoutName}>
-                            <Switch>
-                                {
-                                    Object.values(item.childes).map((route, index) => {
-                                        return <Route key={`route-${indexParent}-${index}`}
-                                                      exact={route.exact}
-                                                      path={`/${item.prefix}/${route.path}`}
-                                        >
-                                            <Middleware name={item.middleware}>
-                                                {route.page()}
-                                            </Middleware>
-                                        </Route>
-                                    })
-                                }
-                            </Switch>
-                        </Layout>
-                    </Route>
+                    return Object.values(item.childes).map((route, index) => {
+                        return <Route key={`route-${indexParent}-${index}`}
+                                      exact={route.exact}
+                                      path={makePath(item, route)}
+                                      element={<Layout type={route.layoutName ?? item.layoutName}>
+                                          <Middleware name={route.middleware ?? item.middleware}>
+                                              {route.page}
+                                          </Middleware>
+                                      </Layout>}
+                        />
+                    })
+
                 })
             }
-            <Route component={NotFound}/>
-        </Switch>
-    </Router>
+        </Routes>
+    </BrowserRouter>
 }

@@ -1,15 +1,16 @@
-import PreProcess from './PreProcess';
-import ApiRoutes from '../ApiRoutes'
+import HeaderApi from "./PreProcess/HeaderApi";
 
-function preProcessAuthApi(urlName, params) {
-    return PreProcess(ApiRoutes, urlName, params);
-}
 
-function postProcessAuthApi(urlName, data) {
-    switch (urlName) {
-        case 'login':
-            return data
+export default function PreProcess(apiAddress, urlName, params) {
+    let apiData = apiAddress.find((obj) => obj.name === urlName);
+    if (apiData === undefined) {
+        return false;
     }
+    return {
+        urlName: urlName,
+        method: apiData.method,
+        url: apiData.url,
+        data: params,
+        headers: HeaderApi(apiData.auth, apiData.media),
+    };
 }
-
-export {preProcessAuthApi, postProcessAuthApi};
